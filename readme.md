@@ -1,6 +1,6 @@
 # Todo App
 
-Assignment 1 - Django based Todo Application
+Assignment - Django based Todo Application using PostgreSQL
 
 ### Features
 
