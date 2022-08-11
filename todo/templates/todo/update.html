@@ -1,0 +1,167 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Update Task</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+              <a class="navbar-brand font-weight-bold" href="">Todo App</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'homepage' %}">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'incomplete' %}">Incomplete Task</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tag' %}">Task by Tag</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'alltask' %}">All Task</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+
+        <div class="container mt-4 border p-3">
+            <div class="font-weight-bold h3 text-center">
+                Task update 
+            </div>
+            {% if updated %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Task updated Successfully!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+
+            <form action = "" method = "POST">
+                {% csrf_token %}
+                    {% for t in task %}
+                    <div class="row">
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="title" class="form-label font-weight-bold">Title</label>
+                            <input type="text" class="form-control" name="title" value="{{ t.title }}" required>
+                          </div>
+                          <div class="mb-3">
+                            <label for="tag" class="form-label font-weight-bold">Tag</label>
+                            <select class="form-select" name="tag" value="{{ t.tag }}" required>
+                                <option value="">Select tag</option>
+                                {% if t.tag == 'Very Important' %}
+                                    <option selected value="Very Important">Very Important</option>
+                                    <option value="Important">Important</option>
+                                    <option value="Less Important">Less Important</option>
+                                    <option value="Not Important">Not Important</option>
+                                {% elif t.tag == 'Important' %}
+                                    <option value="Very Important">Very Important</option>
+                                    <option selected value="Important">Important</option>
+                                    <option value="Less Important">Less Important</option>
+                                    <option value="Not Important">Not Important</option>
+                                {% elif t.tag == 'Less Important' %}
+                                    <option value="Very Important">Very Important</option>
+                                    <option value="Important">Important</option>
+                                    <option selected value="Less Important">Less Important</option>
+                                    <option value="Not Important">Not Important</option>
+                                {% elif t.tag == 'Not Important' %}
+                                    <option value="Very Important">Very Important</option>
+                                    <option value="Important">Important</option>
+                                    <option value="Less Important">Less Important</option>
+                                    <option selected value="Not Important">Not Important</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tag" class="form-label font-weight-bold">Status</label>
+                            <select class="form-select" name="status" value="{{ t.status }}" required>
+                                <option value="">Select status</option>
+                                {% if t.status == 'Completed' %}
+                                    <option selected value="Completed">Completed</option>
+                                    <option value="Incomplete">Incomplete</option>
+                                {% elif t.status == 'Incomplete' %}
+                                    <option value="Completed">Completed</option>
+                                    <option selected value="Incomplete">Incomplete</option>
+                                {% endif %}
+                            </select> 
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="description" class="form-label font-weight-bold">Description</label>
+                            <textarea class="form-control" rows="8" name="description" required>{{ t.description }}</textarea>
+                          </div>
+                      </div>
+                    </div>
+
+                    <!-- <div class="mb-3">
+                        <label for="title" class="form-label font-weight-bold">Title</label>
+                        <input type="text" class="form-control" name="title" value="{{ t.title }}" required>
+                    </div>
+        
+                    <div class="mb-3">
+                        <label for="description" class="form-label font-weight-bold">Description</label>
+                        <textarea class="form-control" rows="3" name="description" required>{{ t.description }}</textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="tag" class="form-label font-weight-bold">Tag</label>
+                            <select class="form-select" name="tag" value="{{ t.tag }}" required>
+                                <option value="">Select tag</option>
+                                {% if t.tag == 'Very Important' %}
+                                    <option selected value="Very Important">Very Important</option>
+                                    <option value="Important">Important</option>
+                                    <option value="Less Important">Less Important</option>
+                                    <option value="Not Important">Not Important</option>
+                                {% elif t.tag == 'Important' %}
+                                    <option value="Very Important">Very Important</option>
+                                    <option selected value="Important">Important</option>
+                                    <option value="Less Important">Less Important</option>
+                                    <option value="Not Important">Not Important</option>
+                                {% elif t.tag == 'Less Important' %}
+                                    <option value="Very Important">Very Important</option>
+                                    <option value="Important">Important</option>
+                                    <option selected value="Less Important">Less Important</option>
+                                    <option value="Not Important">Not Important</option>
+                                {% elif t.tag == 'Not Important' %}
+                                    <option value="Very Important">Very Important</option>
+                                    <option value="Important">Important</option>
+                                    <option value="Less Important">Less Important</option>
+                                    <option selected value="Not Important">Not Important</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tag" class="form-label font-weight-bold">Status</label>
+                            <select class="form-select" name="status" value="{{ t.status }}" required>
+                                <option value="">Select status</option>
+                                {% if t.status == 'Completed' %}
+                                    <option selected value="Completed">Completed</option>
+                                    <option value="Incomplete">Incomplete</option>
+                                {% elif t.status == 'Incomplete' %}
+                                    <option value="Completed">Completed</option>
+                                    <option selected value="Incomplete">Incomplete</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div> -->
+                    {% endfor %}
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary mb-3">Update task</button>
+                    </div>
+            </form>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+    </body>
+</html>
